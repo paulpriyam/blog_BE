@@ -1,5 +1,6 @@
 package com.example.blog.controller;
 
+import com.example.blog.entity.Post;
 import com.example.blog.payload.ApiResponse;
 import com.example.blog.payload.PostDto;
 import com.example.blog.service.PostService;
@@ -45,5 +46,20 @@ public class PostController {
     private ApiResponse deletePost(@PathVariable("postId") Long postId) {
         postService.deletePost(postId);
         return new ApiResponse("post successfully deleted", true);
+    }
+
+    @GetMapping("posts")
+    private ResponseEntity<List<PostDto>> getAllPosts(
+            @RequestParam(value = "pageNumber",defaultValue = "1",required = false)Integer pageNumber,
+            @RequestParam(value = "pageSize",defaultValue = "5",required = false) Integer pageSize
+    ) {
+        List<PostDto> postDtos = postService.getAllPost(pageNumber,pageSize);
+        return new ResponseEntity(postDtos, HttpStatus.OK);
+    }
+
+    @GetMapping("posts/{postId}")
+    private ResponseEntity<PostDto> getPostById(@PathVariable("postId") Long postId) {
+        PostDto post = postService.getPostById(postId);
+        return new ResponseEntity(post, HttpStatus.OK);
     }
 }
