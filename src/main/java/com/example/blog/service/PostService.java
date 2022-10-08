@@ -9,7 +9,7 @@ public interface PostService {
 
     PostDto createPost(PostDto postDto, Long userId, Long categoryId);
 
-    Post updatePost(PostDto postDto, Long postId);
+    PostDto updatePost(PostDto postDto, Long postId);
 
     void deletePost(Long postId);
 
@@ -17,7 +17,7 @@ public interface PostService {
 
     List<Post> getAllPost();
 
-    List<Post> getAllPOstByUser(Long userId);
+    List<PostDto> getAllPOstByUser(Long userId);
 
-    List<Post> getAllPOstByCategory(Long categoryId);
+    List<PostDto> getAllPOstByCategory(Long categoryId);
 }
