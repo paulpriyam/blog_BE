@@ -59,15 +59,29 @@ public class PostController {
     @GetMapping("posts")
     private ResponseEntity<PostPagingResponse> getAllPosts(
             @RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize
+            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+            @RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
     ) {
-        PostPagingResponse postPagingResponse = postService.getAllPost(pageNumber, pageSize);
-        return new ResponseEntity(postPagingResponse, HttpStatus.OK);
+        PostPagingResponse postPagingResponse = postService.getAllPost(pageNumber, pageSize, sortBy, sortDir);
+        return new ResponseEntity<>(postPagingResponse, HttpStatus.OK);
     }
 
     @GetMapping("posts/{postId}")
     private ResponseEntity<PostDto> getPostById(@PathVariable("postId") Long postId) {
         PostDto post = postService.getPostById(postId);
-        return new ResponseEntity(post, HttpStatus.OK);
+        return new ResponseEntity<>(post, HttpStatus.OK);
+    }
+
+    @GetMapping("post/search/{keyword}")
+    private ResponseEntity<List<PostDto>> getPostByTitle(@PathVariable("keyword") String keyword) {
+        List<PostDto> postDtos = postService.findPostByTitle(keyword);
+        return new ResponseEntity<>(postDtos, HttpStatus.OK);
+    }
+
+    @GetMapping("posts/searchAll/{keyword}")
+    private ResponseEntity<List<PostDto>> getPostByTitleOrContent(@PathVariable("keyword") String keyword) {
+        List<PostDto> postDtos = postService.findByTitleOrContent(keyword);
+        return new ResponseEntity<>(postDtos, HttpStatus.OK);
     }
 }

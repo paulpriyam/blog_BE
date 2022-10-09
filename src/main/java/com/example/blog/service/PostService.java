@@ -16,9 +16,13 @@ public interface PostService {
 
     PostDto getPostById(Long postId);
 
-    PostPagingResponse getAllPost(Integer pageNumber, Integer pageSize);
+    PostPagingResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy,String sortDir);
 
     PostPagingResponse getAllPOstByUser(Long userId, Integer pageNumber, Integer pageSize);
 
     PostPagingResponse getAllPOstByCategory(Long categoryId, Integer pageNumber, Integer pageSize);
+
+    List<PostDto> findPostByTitle(String keyword);
+
+    List<PostDto> findByTitleOrContent(String keyword);
 }
