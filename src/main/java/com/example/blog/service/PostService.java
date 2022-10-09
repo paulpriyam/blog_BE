@@ -2,6 +2,7 @@ package com.example.blog.service;
 
 import com.example.blog.entity.Post;
 import com.example.blog.payload.PostDto;
+import com.example.blog.payload.PostPagingResponse;
 
 import java.util.List;
 
@@ -15,9 +16,9 @@ public interface PostService {
 
     PostDto getPostById(Long postId);
 
-    List<PostDto> getAllPost(Integer pageNumber, Integer pageSize);
+    PostPagingResponse getAllPost(Integer pageNumber, Integer pageSize);
 
-    List<PostDto> getAllPOstByUser(Long userId);
+    PostPagingResponse getAllPOstByUser(Long userId, Integer pageNumber, Integer pageSize);
 
-    List<PostDto> getAllPOstByCategory(Long categoryId);
+    PostPagingResponse getAllPOstByCategory(Long categoryId, Integer pageNumber, Integer pageSize);
 }

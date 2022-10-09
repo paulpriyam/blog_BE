@@ -4,6 +4,8 @@ import com.example.blog.entity.Category;
 import com.example.blog.entity.Post;
 import com.example.blog.entity.Users;
 import com.example.blog.payload.PostDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +15,7 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
 
 
-    List<Post> findByUser(Users users);
+    Page<Post> findAllByUser(Users user, Pageable pageable);
 
-    List<Post> findByCategory(Category category);
+    Page<Post> findAllByCategory(Category category,Pageable pageable);
 }
