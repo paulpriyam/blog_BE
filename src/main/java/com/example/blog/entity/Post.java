@@ -1,14 +1,13 @@
 package com.example.blog.entity;
 
+import com.example.blog.payload.CommentDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -32,6 +31,6 @@ public class Post {
     @ManyToOne
     private Users user;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Comment> comment = new HashSet<>();
 }

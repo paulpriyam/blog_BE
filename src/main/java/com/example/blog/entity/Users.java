@@ -1,5 +1,6 @@
 package com.example.blog.entity;
 
+import com.example.blog.payload.CommentDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class Users {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Comment> comment = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Comment> comments = new HashSet<>();
+
 }

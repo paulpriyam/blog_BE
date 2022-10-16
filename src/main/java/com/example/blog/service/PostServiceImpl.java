@@ -4,8 +4,7 @@ import com.example.blog.entity.Category;
 import com.example.blog.entity.Post;
 import com.example.blog.entity.Users;
 import com.example.blog.exemptions.ResourceNotFoundException;
-import com.example.blog.payload.PostDto;
-import com.example.blog.payload.PostPagingResponse;
+import com.example.blog.payload.*;
 import com.example.blog.repository.CategoryRepo;
 import com.example.blog.repository.PostRepository;
 import com.example.blog.repository.UserRepo;
@@ -19,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,7 +70,19 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto getPostById(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId));
-        return this.modelMapper.map(post, PostDto.class);
+        PostDto postDto = new PostDto();
+        postDto.setPostId(post.getPostId());
+        postDto.setPostTitle(post.getPostTitle());
+        postDto.setPostContent(post.getPostContent());
+        postDto.setPostDate(post.getPostDate());
+        postDto.setPostImage(post.getPostImage());
+        postDto.setUser(this.modelMapper.map(post.getUser(), UserDto.class));
+        Set<CommentDto> commentDtoList = post.getComment().stream().map((comment) -> this.modelMapper.map(comment, CommentDto.class)).collect(Collectors.toSet());
+        postDto.setComments(commentDtoList);
+        if (Objects.nonNull(post.getCategory())) {
+            postDto.setCategory(this.modelMapper.map(post.getCategory(), CategoryDto.class));
+        }
+        return postDto;
     }
 
     @Override

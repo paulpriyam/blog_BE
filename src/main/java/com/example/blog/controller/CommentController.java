@@ -28,9 +28,9 @@ public class CommentController {
         return new ResponseEntity<>(new ApiResponse("comment successfully deleted", true), HttpStatus.OK);
     }
 
-    @PutMapping("user/{userId}/post/{postId}/comments")
-    private ResponseEntity<CommentDto> updateComment(@RequestBody CommentDto commentDto, @PathVariable("postId") Long postId, @PathVariable("userId") Long userId) {
-        CommentDto commentDto1 = commentService.updateComment(commentDto, postId, userId);
+    @PutMapping("/comments/{commentId}")
+    private ResponseEntity<CommentDto> updateComment(@RequestBody CommentDto commentDto, @PathVariable("commentId")Long commentId) {
+        CommentDto commentDto1 = commentService.updateComment(commentDto, commentId);
         return new ResponseEntity<>(commentDto1, HttpStatus.OK);
     }
 }

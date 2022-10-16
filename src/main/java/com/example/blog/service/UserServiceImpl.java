@@ -2,6 +2,7 @@ package com.example.blog.service;
 
 import com.example.blog.entity.Users;
 import com.example.blog.exemptions.ResourceNotFoundException;
+import com.example.blog.payload.CommentDto;
 import com.example.blog.payload.UserDto;
 import com.example.blog.repository.UserRepo;
 import org.modelmapper.ModelMapper;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,13 +81,15 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserDto UsersToUserDto(Users users) {
-//        UserDto userDto = new UserDto();
-//        userDto.setId(users.getId());
-//        userDto.setAbout(users.getAbout());
-//        userDto.setEmail(users.getEmail());
-//        userDto.setName(users.getName());
-//        userDto.setPassword(users.getPassword());
-//        return userDto;
-        return this.modelMapper.map(users, UserDto.class);
+        UserDto userDto = new UserDto();
+        userDto.setId(users.getId());
+        userDto.setAbout(users.getAbout());
+        userDto.setEmail(users.getEmail());
+        userDto.setName(users.getName());
+        Set<CommentDto> commentDtoSet = users.getComments().stream().map((comment) -> this.modelMapper.map(comment, CommentDto.class)).collect(Collectors.toSet());
+        userDto.setComments(commentDtoSet);
+        userDto.setPassword(users.getPassword());
+        return userDto;
+//        return this.modelMapper.map(users, UserDto.class);
     }
 }
